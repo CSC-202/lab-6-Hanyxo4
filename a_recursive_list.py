@@ -45,18 +45,61 @@ def addAtIndex(data: List, index: int, value: int) -> List:
 
 
 def removeAtIndex(data: List, index: int) -> tuple[Node, List]:
+    def helper(v: Node, index, int, i:int):
+        if i+1 == index:
+            target: Node= v.next
+            v.next = target.next
+            
+        return helper(v.next)
+
+
     raise NotImplementedError("List.removeAtIndex() not defined")
 
 
 def addToFront(data: List, value: int) -> List:
+    data.first = helper(data.first, value)
+    if data.last is None:
+        data.last = data.first
+    return data
+
+def helper(node: Node, value:int)-> Node:
+    if node is None:
+        return Node(value, None)
+    else: 
+        new_node = Node(value, node)
+        return helper(new_node, node.value)
+        
+
+    
+    
+    
     raise NotImplementedError("List.addToFront() not defined")
 
 
 def addToBack(data: List, value: int) -> List:
+    data.first = helper(data.first, value)
+    if data.last is None:
+        data.last = data.first
+    return data
+def helper(node:Node, value:int)-> Node:
+    if node is None:
+        return Node(value, None)
+    else:
+        node.next = helper(node.next, value)
+        return node
+
     raise NotImplementedError("List.addToBack() not defined")
 
 
 def getElementAtIndex(data: List, index: int) -> Node:
+
+    def helper(node: Node, index:int)->None:
+        if node is None or index < 0:
+            return None
+        elif index == 0:
+            return Node
+        else:
+            return helper(node.next, index -1)
     raise NotImplementedError("List.getElementAtIndex() not defined")
 
 
