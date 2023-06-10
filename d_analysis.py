@@ -314,6 +314,7 @@ for experiment in RESULTS:
 
 # YOUR CODE GOES BELOW
 ## LIST
+plt.plot()
 
 
 ## STACK

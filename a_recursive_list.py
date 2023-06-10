@@ -33,14 +33,38 @@ class List:
 
 
 def initialize() -> List:
+    return list()
     raise NotImplementedError("List.initialize() not defined")
 
 
 def isEmpty(data: List) -> bool:
+    if not data:
+        return True
+    elif isinstance(data, list):
+        return all(isEmpty(element) for element in data)
+    else:
+        return False
     raise NotImplementedError("List.isEmpty() not defined")
 
 
 def addAtIndex(data: List, index: int, value: int) -> List:
+    def helper(v:Node, index: int, value:int, i):
+        if (i+1)== index:
+            new_node = (value, v.next)
+            v.next = new_node
+            return data
+        elif i > index:
+            return helper(v.next, index, i + 1, value)
+        
+    if data.first is None:
+        data.first = Node(value,None)
+    elif index < 0 or index >= len(data):
+        raise IndexError('D:')
+    else:
+        return helper(data.first, index, value, i =0)
+
+
+
     raise NotImplementedError("List.addAtIndex() not defined")
 
 
@@ -49,25 +73,38 @@ def removeAtIndex(data: List, index: int) -> tuple[Node, List]:
         if i+1 == index:
             target: Node= v.next
             v.next = target.next
+            return target, data
+        elif i> index:
+            raise IndexError
             
-        return helper(v.next)
+        return helper(v.next, index, i+1)
+    if isEmpty(data):
+        return None
+    elif index<0 or index >= len(data):
+        raise IndexError("D:")
+    else:
+        return helper(data.first, index, i=0)
 
 
     raise NotImplementedError("List.removeAtIndex() not defined")
 
 
 def addToFront(data: List, value: int) -> List:
-    data.first = helper(data.first, value)
     if data.last is None:
-        data.last = data.first
-    return data
+        new_node = (value,None)
+        data.first = new_node
+        return data
+    else:
+        new_node = Node(value, data.first)
+        data.first = new_node
+        return data
 
-def helper(node: Node, value:int)-> Node:
-    if node is None:
-        return Node(value, None)
-    else: 
-        new_node = Node(value, node)
-        return helper(new_node, node.value)
+#def helper(node: Node, value:int)-> Node:
+    #if node is None:
+        #return Node(value, None)
+   # else: 
+        #new_node = Node(value, node)
+        #return helper(new_node, node.value)
         
 
     
@@ -77,31 +114,45 @@ def helper(node: Node, value:int)-> Node:
 
 
 def addToBack(data: List, value: int) -> List:
-    data.first = helper(data.first, value)
-    if data.last is None:
-        data.last = data.first
-    return data
-def helper(node:Node, value:int)-> Node:
-    if node is None:
-        return Node(value, None)
-    else:
-        node.next = helper(node.next, value)
-        return node
+    def helper(v :Node, value:int)-> Node:
+        if v.next is None:
+            new_node = Node(value, None)
+            v.next = new_node
+            return data
+        else:
+            return helper(v.next , value)
+    if data.first is None:
+        new_node = Node(value, None)
+        data.first = new_node
+        return data
+    else: 
+        return helper(data.first, value)
 
     raise NotImplementedError("List.addToBack() not defined")
 
 
 def getElementAtIndex(data: List, index: int) -> Node:
 
-    def helper(node: Node, index:int)->None:
-        if node is None or index < 0:
-            return None
-        elif index == 0:
-            return Node
+    def helper(v: Node, index:int, i:int)->None:
+        if i == index:
+            return v
+        elif i > index:
+            raise IndexError('D:')
         else:
-            return helper(node.next, index -1)
+            return(helper(v.next, index, i+1))
+        
+    if isEmpty(data):
+        return None
+    elif index < 0 or index >= len(data):
+        raise IndexError ("D:")
+    else:
+        return helper(data.first, index, i=0)
+    
+    
     raise NotImplementedError("List.getElementAtIndex() not defined")
 
 
 def clear(data: List) -> List:
+    data.first = None
+    return data
     raise NotImplementedError("List.clear() not defined")
